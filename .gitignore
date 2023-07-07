@@ -1,0 +1,5 @@
+/.idea/
+/src/main/resources/application.yaml
+/appSession.*
+# Project exclude paths
+/target/

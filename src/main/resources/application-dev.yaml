@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    username: name
+    password: password
+    url: jdbc:mysql://
+    driverClassName: com.mysql.cj.jdbc.Driver
+    hikari:
+      max-lifetime: 600000
+  jpa:
+    generate-ddl: false
+    properties.hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
+    hibernate.ddl-auto: none
+  mvc:
+    format:
+      date: dd.MM.yyyy
+      date-time: dd.MM.yyyy HH:mm:ss
+      time: HH:mm:ss
+
+server.port: ${PORT:8000}
+
+logging.level:
+  root: INFO

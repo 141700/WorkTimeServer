@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Сервер учета рабочего времни</title>
+    <style type="text/css">
+
+th {
+  font-weight: bold;
+}
+
+#all {
+  background-color: silver;
+  font-family: Century Gothic;
+  font-size: 17px;
+}
+
+#welcome {
+  font-weight: bold;
+  font-size: 28px;
+}
+
+#input {
+  font-size: 22px;
+}
+
+#offices {
+  font-size: 20px;
+}
+
+#invite {
+  font-size: 20px;
+}
+
+#button {
+  font-weight: bold;
+  font-size: 28px;
+}
+
+
+    </style>
+</head>
+<body id="all">
+<p id="welcome">
+    Получить результаты учета рабочего времени
+    <br>
+</p>
+
+<form action="#" th:action="@{/worktime}" th:object="${worktimeForm}" method="post">
+    <table>
+        <tr>
+            <td>Начало отбора:</td>
+        </tr>
+        <tr>
+            <td><input type="date" th:field="${worktimeForm.begin}" id="begin-date"/></td>
+        </tr>
+        <tr>
+            <td>Конец отбора:</td>
+        </tr>
+        <tr>
+            <td><input type="date" th:field="${worktimeForm.end}" id="end-date"/></td>
+        </tr>
+    </table>
+    <br>
+    <br>
+    <table>
+        <tr>
+            <td>
+                <button id="button" type="submit">Найти</button>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <br>
+    <div class="form-group" th:if="${!records.isEmpty()}">
+        <p id="invite">
+            Результаты:
+            <br>
+        </p>
+        <table style="width: 600px;" frame="box" th:each="mapEntry : ${records}">
+            <tr>
+                <th colspan="4" th:text="${mapEntry.key}"></th>
+            </tr>
+            <tr th:each="r : ${mapEntry.value}" style="text-align:left">
+                <td width="20%" th:text="${#temporals.format(r.getStart(),'dd-MM-yy')}"></td>
+                <td width="40%" th:text="${r.getEmployee().getName()}"></td>
+                <td width="15%" th:text="${#temporals.format(r.getStart(),'HH:mm')}"></td>
+                <td width="15%" th:text="${#temporals.format(r.getFinish(),'HH:mm')}"></td>
+            </tr>
+            <tr><br></tr>
+        </table>
+    </div>
+</form>
+<br>
+<br>
+</body>
+</html>

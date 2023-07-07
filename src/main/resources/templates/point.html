@@ -1,0 +1,118 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Сервер учета рабочего времни</title>
+    <style type="text/css">
+
+th {
+  font-weight: bold;
+}
+
+#all {
+  background-color: silver;
+  font-family: Century Gothic;
+  font-size: 17px;
+}
+
+#welcome {
+  font-weight: bold;
+  font-size: 28px;
+}
+
+#input {
+  font-size: 22px;
+}
+
+#offices {
+  font-size: 20px;
+}
+
+#invite {
+  font-size: 20px;
+}
+
+#button {
+  font-weight: bold;
+  font-size: 28px;
+}
+
+    </style>
+</head>
+<body id="all">
+<p id="welcome">
+    Операции с точками идентификации
+    <br>
+</p>
+
+<form action="#" th:action="@{/addnewpoint}" th:object="${pointForm}" method="post">
+    <table>
+        <tr>
+            <td>Задайте название новой точки:</td>
+        </tr>
+        <tr>
+            <td><input id="inputTitle" type="text" th:field="*{title}"/></td>
+            <td th:if="${titleerror}"><i>Название офиса должно иметь от 2 до 30 символов!</i></td>
+        </tr>
+        <tr>
+            <td>MAC адрес (HH:HH:HH:HH:HH:HH):</td>
+        </tr>
+        <tr>
+            <td><input id="inputAddress" type="text" th:field="*{macAddress}"/></td>
+            <td th:if="${addresserror}"><i>Введен некорректный MAC адрес</i></td>
+        </tr>
+        <tr>
+            <td>Тип идентификации:</td>
+        </tr>
+        <tr>
+            <td>
+                <select id="type" name="types" th:field="*{type}">
+                    <option th:each="type : ${types}" th:value="${type}" th:utext="${type}"></option>
+                </select>
+            </td>
+            <td th:if="${officeerror}"><i>Не выбран офис</i></td>
+        </tr>
+    </table>
+    <br>
+    <br>
+    <table>
+        <tr>
+            <td>
+                <button id="button" type="submit">Добавить</button>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <br>
+    <div class="form-group" th:if="${!offices.isEmpty()}">
+        <p id="invite">
+            Список офисов и точек:
+            <br>
+        </p>
+        <table style="width: 600px;" frame="box" th:each="o : ${offices}">
+            <tr>
+                <th width="10%">
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" th:field="*{officeId}" th:value="${o.getId()}"
+                               class="custom-control-input">
+                    </div>
+                </th>
+                <th colspan="3" th:text="${o.getTitle()}"></th>
+            </tr>
+            <tr th:each="p : ${points}" th:if="${o.getId()} == ${p.getOffice().getId()}" style="text-align:left">
+                <td width="10%"></td>
+                <td width="35%" th:text="${p.getTitle()}"></td>
+                <td width="35%" th:text="${p.getMacAddress()}"></td>
+                <td width="20%" th:text="${p.getType()}"></td>
+            </tr>
+            <tr><br></tr>
+        </table>
+    </div>
+</form>
+<p id="offices">
+    <br>
+    <br>
+    <a target="_blank"
+       href="/addnewoffice">Операции с офисами</a></p>
+</body>
+</html>

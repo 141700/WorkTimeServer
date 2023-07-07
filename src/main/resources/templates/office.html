@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Сервер учета рабочего времни</title>
+    <style type="text/css">
+
+th {
+  font-weight: bold;
+}
+
+#all {
+  background-color: silver;
+  font-family: Century Gothic;
+  font-size: 17px;
+}
+
+#welcome {
+  font-weight: bold;
+  font-size: 28px;
+}
+
+#input {
+  font-size: 22px;
+}
+
+#points {
+  font-size: 20px;
+}
+
+#button {
+  font-weight: bold;
+  font-size: 28px;
+}
+
+
+
+    </style>
+</head>
+<body id="all">
+<p id="welcome">
+    Операции с офисами
+    <br>
+</p>
+
+<form action="#" th:action="@{/addnewoffice}" th:object="${officeForm}" method="post">
+    <table>
+        <tr>
+            <td>Задайте название нового офиса:</td>
+        </tr>
+        <tr>
+            <td><input id="input" type="text" th:field="*{title}"/></td>
+            <td th:if="${titleerror}"><i>Название офиса должно иметь от 2 до 30 символов!</i></td>
+        </tr>
+    </table>
+    <br>
+    <br>
+    <table>
+        <tr>
+            <td>
+                <button id="button" type="submit">Добавить</button>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <br>
+    <div class="form-group" th:if="${!offices.isEmpty()}">
+        <p id="invite">
+            Список офисов:
+            <br>
+        </p>
+        <table style="width: 500px;">
+            <tr>
+                <th>ID</th>
+                <th></th>
+                <th style="text-align:left">Название</th>
+            </tr>
+            <tr th:each="listEntry : ${offices}">
+                <td style="text-align:center" width="10%" th:each="i: ${listEntry}" th:text="${i.getId()}">id</td>
+                <td style="text-align:center" width="5%"></td>
+                <td th:each="i: ${listEntry}" th:text="${i.getTitle()}">title</td>
+            </tr>
+        </table>
+    </div>
+
+</form>
+<p id="points">
+    <br>
+    <br>
+    <a target="_blank"
+       href="/points">Операции с точками</a></p>
+</body>
+</html>
